@@ -1,6 +1,9 @@
 @extends ('layout')
 @section('tittle2','ModeFk Home')
 @section('contenido1')
+
+
+
 <div class="container">
 	<div class="row justify-content-md-center">
 		<div class="col col-md-4">

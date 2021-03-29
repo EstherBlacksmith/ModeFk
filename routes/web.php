@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\EstadosController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,17 +14,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('ModeFk', function () {
+Route::get('/ModeFk', function () {
     return view('home');
 })-> name('home');
 
-Route::get('estados', function () {
-    return view('estados-buttons');
-})-> name('estados');
+Route::get('/', function () {
+    return view('home');
+});
+
+Route::get('estados-buttons',[EstadosController::class, 'index'])-> name('estados');
 
 Route::get('ansiedad', function () {
     return view('estados/ansiedad');

@@ -3,15 +3,18 @@
 
 @section('contenido1')
 
+@foreach ($estados as $estado)
+    <p>{{ $estado->id }}</p>
+    <p>{{ $estado->nombre }}</p>
+    <p>{{ $estado->descripcion }}</p>
 
+@endforeach
 
 <div class="container">
 	<div class="row justify-content-md-center">
-		<div class="col col-md-1">  
+		<div class="col col-md-1">  		
 			<!-- Button trigger modal -->
-			<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Ejercicios ansiedad</button>
-
-			<!--	<a href="{{ route('ansiedad')}}" class="btn btn-primary" >Ansiedad</a> -->
+			<button type="button" class="btn btn-primary" data-bs-toggle="modal"  data-bs-target="#{{ $estado->nombre }}">Ejercicios {{ $estado->nombre }} </button>
 		</div>
 
 		<div class="col col-md-1">
@@ -25,11 +28,11 @@
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="{{ $estado->nombre }}" tabindex="-1" aria-labelledby="{{ $estado->nombre }}" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">A continuación puedes escojer un ejercicio breve para reducir el nivel de ansiedad.</h5>
+        <h5 class="modal-title" id="{{ $estado->nombre }}Label">A continuación puedes escojer un ejercicio breve para reducir el nivel de ansiedad.</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -55,6 +58,7 @@
       <div class="modal-body">
        Respira 3 veces contando entre respitraciones 3 segundos de inspirar y 3 de expirar
       </div>
+
  	  <div class="modal-footer justify-content-md-center">
  	  	<a class="btn btn-primary" href="#exampleModal" data-bs-toggle="modal" data-bs-dismiss="modal"  role="button">Volver</a>
       	<button type="button" class="btn btn-primary">Marcar como hecho</button>        
