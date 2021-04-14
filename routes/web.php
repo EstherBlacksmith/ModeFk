@@ -2,6 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EstadosController;
+use App\Http\Controllers\EjerciciosCOntroller;
+use App\Http\Controllers\UsuariosController;
+use App\Http\Controllers\Auth\RegisterController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +17,7 @@ use App\Http\Controllers\EstadosController;
 |
 */
 
+/*Página de inicio*/
 Route::get('/ModeFk', function () {
     return view('home');
 })-> name('home');
@@ -22,9 +26,14 @@ Route::get('/', function () {
     return view('home');
 });
 
-Route::get('estados-buttons',[EstadosController::class, 'index'])-> name('estados');
+/*Estados y ejercícios*/
+Route::get('estados',[EstadosController::class, 'index'])-> name('estados');
 
-Route::get('ansiedad', function () {
+Route::post('estados',[EjerciciosCOntroller::class,'marcaHecho'])-> name('marcaHecho');
+
+Route::get('ejerciciosRealizados',[EjerciciosCOntroller::class,'realizados'])-> name('realizados');
+
+/*Route::get('ansiedad', function () {
     return view('estados/ansiedad');
 })-> name('ansiedad');
 
@@ -34,4 +43,20 @@ Route::get('tristeza', function () {
 
 Route::get('bienestar', function () {
     return view('estados/bienestar');
-})-> name('bienestar');
+})-> name('bienestar');*/
+
+/*Usuarios*/
+Route::get('inicioSesion',[UsuariosController::class,'inicioSesionShow']);
+
+Route::post('inicioSesion',[UsuariosController::class,'inicioSesion'])-> name('inicioSesion');
+
+Route::get('registroUsuario', function () {
+    return view('usuarios/registroUsuario');
+});
+
+Route::post('registroUsuario',[RegisterController::class,'create'])-> name('registroUsuario');
+
+Auth::routes();
+
+
+/*Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');*/

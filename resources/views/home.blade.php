@@ -7,7 +7,7 @@
 <div class="container">
 	<div class="row justify-content-md-center">
 		<div class="col col-md-4">
-			<p>Los estados de ánimo son estado de humor que peuden afectar negativamente en nuestras relaciones y en la vida diaria.
+			<p>Los estados de ánimo son estado de humor que pueden afectar negativamente en nuestras relaciones y en la vida diaria.
 				Es importante sentirse bien y centrado, relajado y sin picos de tristeza, ansiedad, éxtasis o depresión.
 			</p>
 			<p>

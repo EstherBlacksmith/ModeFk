@@ -16,21 +16,30 @@
   <body>
  
     <div class="container-fluid">
-		<nav class="navbar navbar-expand-lg navbar-light bg-light">
-			<div class="container-fluid">
-				<div class="collapse navbar-collapse" id="navbarSupportedContent">
-				    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-				        <li class="nav-item">
-				        	<a class="navbar-brand" href="{{ route('home') }}">Inicio</a>
-				        </li>
-				        <li class="nav-item">
-				        	<a class="navbar-brand" href="{{ route('estados') }}">Estados de ánimo</a>
-				        </li>
-				    </ul>	   
-				</div>
-			</div>
-		</nav>
-	</div>
+  		<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  			<div class="container-fluid">
+  				<div class="collapse navbar-collapse" id="navbarSupportedContent">
+  				    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+  				        <li class="nav-item">
+  				        	<a class="navbar-brand" href="{{ route('home') }}">Inicio</a>
+  				        </li>
+  				        <li class="nav-item">
+  				        	<a class="navbar-brand" href="{{ route('estados') }}">Estados de ánimo</a>
+  				        </li>
+                  <li class="nav-item">
+                    <a class="navbar-brand" href="{{ route('realizados') }}">Ejercicios realizados</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="navbar-brand" href="{{ route('inicioSesion') }}">Inicia sesión</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="navbar-brand" href="{{ route('registroUsuario') }}">Regístrate</a>
+                  </li>
+  				    </ul>	   
+  				</div>
+  			</div>
+  		</nav>
+	  </div>
 
   	<div class="container-fluid">
   		<div id="encabezado">  			
@@ -41,6 +50,8 @@
   	@yield('contenido1')
   	@yield('contenido2')
 
-	<footer>  
-  		@yield('footer','DAW 2 M7')
- 	</footer>  </body></html>
+  	<footer>  
+    		@yield('footer','DAW 2 M7')
+   	</footer>  
+ </body>
+ </html>
