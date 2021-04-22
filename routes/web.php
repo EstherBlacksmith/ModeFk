@@ -27,11 +27,18 @@ Route::get('/', function () {
 });
 
 /*Estados y ejercícios*/
-Route::get('estados',[EstadosController::class, 'index'])-> name('estados');
+Route::get('estados',[EjerciciosCOntroller::class, 'index'])-> name('estados');
 
-Route::post('estados',[EjerciciosCOntroller::class,'marcaHecho'])-> name('marcaHecho');
+Route::post('estados',[EjerciciosCOntroller::class,'marcaRealizado'])-> name('marcaRealizado');
 
 Route::get('ejerciciosRealizados',[EjerciciosCOntroller::class,'realizados'])-> name('realizados');
+
+Route::get('estadosEdicion',[EstadosController::class,'estadosEdicion'])->name('estadosEdicion');
+
+Route::get('ejerciciosEdicion',[EjerciciosCOntroller::class,'ejerciciosEdicion'])->name('ejerciciosEdicion');
+
+Route::get('editar/{id}',[EstadosController::class,'editar'])->name('editar');
+
 
 /*Route::get('ansiedad', function () {
     return view('estados/ansiedad');

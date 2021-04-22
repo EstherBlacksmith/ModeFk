@@ -59,17 +59,17 @@
  	  <div class="modal-footer justify-content-md-center">
  	  	<a class="btn btn-primary" href="#es-{{ $ejercicio->estados_id }}" data-bs-toggle="modal" data-bs-dismiss="modal" role="button">Volver</a>
 
-        <form method="POST" action="{{ route('marcaHecho') }}">
+        <form method="POST" action="{{ route('marcaRealizado') }}">
           @csrf
           <input type="hidden" name="fk_ejercicio_id" id="fk_ejercicio_id" value="{{ $ejercicio->id }}">
           <input type="hidden" name="fk_user_id" id="fk_user_id" value="{{ $ejercicio->estados_id }}">
-          @foreach($ejercicioSinRealizar as $pendiente)           
-            @if($loop->first)
-              @if($pendiente->ejercicio_id == $ejercicio->id)
-                   <button  class=" disabled btn btn-success">Ejercicio realizado hoy</button>               
+          @foreach($realizadosHoy as $hecho)  
+       
+            @if($hecho->ejercicio_id == $ejercicio->id and $hecho->ejercicioHecho > today())          
+              @if($loop->depth == 2 and $loop->last)
+                <button  class=" disabled btn btn-success">Ejercicio realizado hoy</button>               
               @endif
-              @endif
-
+            @endif
           @endforeach
           <button type="submit"  class="btn btn-primary">Marcar como hecho</button> 
         </form>
