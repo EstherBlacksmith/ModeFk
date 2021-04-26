@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redirect;
 use App\Models\Estado;
 use App\Models\ejercicio;
 use App\Models\RegistroEjercicios;
@@ -46,7 +47,8 @@ class EjerciciosCOntroller extends Controller
 		$registroEjercicio->user_id = $this->id;
         $registroEjercicio->ejercicioHecho = now();
 		$registroEjercicio->save();
-        return "ejercicio guardado";
+
+        return Redirect::back();
 
 	}
 
@@ -56,10 +58,13 @@ class EjerciciosCOntroller extends Controller
 
         $ejerciciosRealizados = DB::table('ejercicios')
                                     ->join('registro_Ejercicios','ejercicio_id','=','ejercicios.id')
-                                    ->select('ejercicios.*','registro_Ejercicios.*')
+                                    ->select('ejercicios.id','ejercicios.nombre','registro_Ejercicios.ejercicio_id')
                                     ->where('registro_Ejercicios.user_id','=',$this->id)
+                                    ->orderBy('registro_Ejercicios.ejercicio_id')
+                                    ->groupBy('ejercicios.id','ejercicios.nombre','registro_Ejercicios.ejercicio_id')
+                                    ->selectRaw('count(*) as total, ejercicios.id')
                                     ->get()
-                                    ->toArray();  
+                                    ->toArray();
         return $ejerciciosRealizados;
     }
 
@@ -81,18 +86,31 @@ class EjerciciosCOntroller extends Controller
                                                  
     }
 
-    public function sumaRealizados(){
+   /* public function sumaRealizados(){
         $sumaEjercicios = RegistroEjercicios::groupBy('ejercicio_id')->select('ejercicio_id', DB::raw('count(*) as total'))->get()->toArray();
         return $sumaEjercicios;
-    }
+    }*/
 
 	public function realizados(){        
-
+        $ejercicioEstados = array();
         $ejercicios = $this->ejerciciosConEstado();
         $ejerciciosRealizados = $this-> ejerciciosRealizados(); 
-        $sumaEjercicios = $this-> sumaRealizados();   
 
-        return view('ejerciciosRealizados',compact('ejercicios','ejerciciosRealizados','sumaEjercicios'));
+        foreach ($ejercicios as $ejer ) {
+            foreach ($ejerciciosRealizados as $ejerRealizado ) {
+                if($ejer->id == $ejerRealizado->id){
+                    
+                    $ejercicioEstados[] = $ejer->id;
+
+                    $estado = Estado::find($ejer->estados_id);
+                    if ($estado){
+                        $ejercicioEstados[$ejer->id] = $estado->nombre;
+                    }
+                }
+            }
+        }
+        dd($ejercicioEstados);
+        return view('ejerciciosRealizados',compact('ejercicios','ejerciciosRealizados','ejercicioEstados'));
 	}  
 
 
@@ -111,25 +129,60 @@ class EjerciciosCOntroller extends Controller
     }
 
 
-    public function listadoRealizados(){
-        $ejerciciosRealizados = $this-> ejerciciosRealizados(); 
-        $sumaEjercicios = $this-> sumaRealizados();   
+   /* public function ejerciciosEdicion($id){
+        $this->loggeado();
 
-        $listaSuma = array();
-        foreach ($ejerciciosRealizados as $ejercicioHecho) {
-            foreach($sumaEjercicios as $suma){
-                echo $ejercicioHecho->id;
-             
-                // $listaSuma[$ejercicioHecho->id][$suma];
-              }
+        $estado = Estado::find($id);
+
+        if(!$estado){
+            return Redirect::back()->withErrors(['El estado no se encuentra', 'The Message']);
         }
-            
 
+        return view('ejercicios.ejerciciosEdicion',compact('estado'));
+    }*/
+
+
+    public function ejercicioCrear($id){
+        $this->loggeado();
+
+        $estado = Estado::find($id);
+
+        if(!$estado){
+            return Redirect::back()->withErrors(['El estado no se encuentra', 'The Message']);
+        }
+
+        return view('ejercicios.ejerciciosCrear',compact('estado'));
     }
 
-    public function ejerciciosEdicion(){
-        return view('ejercicios.ejerciciosEdicion');
-    }
+
+
+    public function ejercicioCrearStore(Request $request){
+
+        $this->loggeado();
+
+        $validated = $request->validate([
+                'nombreEjercicio' => 'required|max:45',
+                'descripcionEjercicio' => 'required|max:255',
+                'id_estado'=> 'required',
+            ]);
+
+        $estado = Estado::find($request->id_estado);
+
+        if(!$estado){
+            return Redirect::back()->withErrors(['Error', 'El estado no se encuentra']);
+        }
+ 
+        $ejercicio = new ejercicio();
+
+        $ejercicio->nombre = $request->nombreEjercicio;
+        $ejercicio->descripcion = $request->descripcionEjercicio;
+        $ejercicio->estados_id = $request->id_estado;
+
+        $ejercicio->save();
+
+        return Redirect::back();
+
+     }
 
 
 }

@@ -33,11 +33,20 @@ Route::post('estados',[EjerciciosCOntroller::class,'marcaRealizado'])-> name('ma
 
 Route::get('ejerciciosRealizados',[EjerciciosCOntroller::class,'realizados'])-> name('realizados');
 
-Route::get('estadosEdicion',[EstadosController::class,'estadosEdicion'])->name('estadosEdicion');
+Route::get('ejercicioCrear/{id}',[EjerciciosCOntroller::class,'ejercicioCrear'])->name('ejercicioCrear');
 
-Route::get('ejerciciosEdicion',[EjerciciosCOntroller::class,'ejerciciosEdicion'])->name('ejerciciosEdicion');
+Route::get('ejerciciosEdicion/{id}',[EjerciciosCOntroller::class,'ejerciciosEdicion'])->name('ejerciciosEdicion');
+Route::post('ejerciciosEdicion',[EjerciciosCOntroller::class,'ejercicioCrearStore'])->name('ejercicioCrearStore');
+
+
+Route::get('estadosEdicion',[EstadosController::class,'estadosEdicion'])->name('estadosEdicion');
+Route::post('estadosEdicion',[EstadosController::class,'estadoCrear'])->name('estadoCrearStore');
+Route::get('estadosEliminar/{id}',[EstadosController::class,'estadosEliminar'])->name('estadosEliminar');
 
 Route::get('editar/{id}',[EstadosController::class,'editar'])->name('editar');
+
+Route::post('editar',[EstadosController::class,'estadoEditarStore'])->name('estadoEditarStore');
+
 
 
 /*Route::get('ansiedad', function () {
