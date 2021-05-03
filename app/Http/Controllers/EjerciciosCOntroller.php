@@ -9,17 +9,22 @@ use Illuminate\Support\Facades\Redirect;
 use App\Models\Estado;
 use App\Models\ejercicio;
 use App\Models\RegistroEjercicios;
+use App\Models\ejercicioConEstado;
+
 use Carbon\Carbon;
+
 
 class EjerciciosCOntroller extends Controller
 {
     public $id;
 
     public function loggeado(){
-        date_default_timezone_set('Europe/Madrid');
 
+        date_default_timezone_set('Europe/Madrid');
+        
         if (Auth::check()){
-            $this->id = Auth::id();            
+            $this->id = Auth::id();    
+
             
          }else{
             return view('usuarios/inicioSesion');
@@ -27,14 +32,14 @@ class EjerciciosCOntroller extends Controller
 
     }  
 
-    public function ejerciciosConEstado(){
+    public function ejerciciosYEstados(){
 
-        $ejerciciosConEstado = DB::table('ejercicios')
+        $ejerciciosYEstados = DB::table('ejercicios')
                                 ->join('estados', 'estados.id', '=', 'ejercicios.estados_id')
                                 ->select('ejercicios.*')
                                 ->get();
 
-        return $ejerciciosConEstado;
+        return $ejerciciosYEstados;
     }
     
     
@@ -68,12 +73,9 @@ class EjerciciosCOntroller extends Controller
         return $ejerciciosRealizados;
     }
 
-    public function realizadosHoy(){
-
-        
+    public function realizadosHoy(){        
 
         $this->loggeado();
-        echo $this->id;
         $carbon = new Carbon();                  
         $today = Carbon::now();
         $yesterday = Carbon::now()->subHours(24);
@@ -93,7 +95,7 @@ class EjerciciosCOntroller extends Controller
 
 	public function realizados(){        
         $ejercicioEstados = array();
-        $ejercicios = $this->ejerciciosConEstado();
+        $ejercicios = $this->ejerciciosYEstados();
         $ejerciciosRealizados = $this-> ejerciciosRealizados(); 
 
         foreach ($ejercicios as $ejer ) {
@@ -122,7 +124,7 @@ class EjerciciosCOntroller extends Controller
                                 
         $estados = Estado::all(); 
 
-        $ejercicios = $this->ejerciciosConEstado();
+        $ejercicios = $this->ejerciciosYEstados();
 
         return view('estados',compact('estados','ejercicios','realizadosHoy'));
 
@@ -146,12 +148,13 @@ class EjerciciosCOntroller extends Controller
         $this->loggeado();
 
         $estado = Estado::find($id);
+        $ejercicios = ejercicio::all();
 
         if(!$estado){
             return Redirect::back()->withErrors(['El estado no se encuentra', 'The Message']);
         }
 
-        return view('ejercicios.ejerciciosCrear',compact('estado'));
+        return view('ejercicios.ejerciciosCrear',compact('estado','ejercicios'));
     }
 
 
@@ -176,11 +179,30 @@ class EjerciciosCOntroller extends Controller
 
         $ejercicio->nombre = $request->nombreEjercicio;
         $ejercicio->descripcion = $request->descripcionEjercicio;
-        $ejercicio->estados_id = $request->id_estado;
+        //$ejercicio->estados_id = $request->id_estado;
 
         $ejercicio->save();
 
+        //creamos el registro en la tabla que relaciona los estados con sus ejercicios
+        $ejercicioConEstado = new ejercicioConEstado();
+        $ejercicioConEstado->ejercicio_id = $ejercicio->id;
+        $ejercicioConEstado->estado->id =  $request->id_estado;
+
+        $ejercicioConEstado->save();
+
         return Redirect::back();
+
+     }
+
+     public function ejercicioAnadirStore($estado_id,$ejercicio_id){
+        $this->loggeado();
+
+        //creamos el registro en la tabla que relaciona los estados con sus ejercicios
+        $ejercicioConEstado = new ejercicioConEstado();
+        $ejercicioConEstado->ejercicio_id = $ejercicio_id;
+        $ejercicioConEstado->estado->id =  $estado_id;
+
+
 
      }
 

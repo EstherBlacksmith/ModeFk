@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class muestraDatosUsuarioMiddleware
 {
@@ -17,16 +18,16 @@ class muestraDatosUsuarioMiddleware
      */
     public function handle(Request $request, Closure $next)
     {   
-       
-        $user = User::where('email', request()->cookie('email'))->first();
-        
-        if(! $user){
-            echo "Inicia sesión"        ;
+       if (Auth::check()){
+            $user = User::where('email', request()->cookie('email'))->first();
+            
+            if(! $user){
+                echo "Inicia sesión"        ;
+            }
+            else{
+                echo "Hola ".$user->name;
+            }
         }
-        else{
-            echo "Hola ".$user->name;
-        }
-        
         return $next($request);
     }
 }

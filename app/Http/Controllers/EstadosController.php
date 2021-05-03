@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use App\Models\Estado;
-use App\Models\ejercicio;
+use App\Models\ejercicioConEstado;
 
 class EstadosController extends Controller
 {
@@ -83,9 +83,17 @@ class EstadosController extends Controller
     	$this->loggeado();
 
     	$estado = Estado::find($id);
+
     	if(!$estado){
     		return Redirect::back()->withErrors(['El estado a editar no se encuentra', 'The Message']);
     	}
+
+        //Eliminamos los registros de la tabla que vincula los estados con los ejercicios.
+        while ($ejercicioConEstado = ejercicioConEstado::where('estado_id', $id)->first()) {
+           $ejercicioConEstado->forceDelete();
+        }
+
+        
     	$estado->forceDelete();
 
     	return Redirect::back();

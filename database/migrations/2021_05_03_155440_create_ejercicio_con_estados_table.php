@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AlterTableUserAddRol extends Migration
+class CreateEjercicioConEstadosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,12 @@ class AlterTableUserAddRol extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->string('rol')->default('usuario'); /* usuario/propietario */
+        Schema::create('ejercicio_con_estados', function (Blueprint $table) {
+            $table->id();
+            $table->timestamps();
+            $table->unsignedBigInteger('estado_id');
+            $table->unsignedInteger('ejercicio_id');
+        
         });
     }
 
@@ -25,6 +29,6 @@ class AlterTableUserAddRol extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('ejercicio_con_estados');
     }
 }

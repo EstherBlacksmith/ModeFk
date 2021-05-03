@@ -33,10 +33,12 @@ Route::post('estados',[EjerciciosCOntroller::class,'marcaRealizado'])-> name('ma
 
 Route::get('ejerciciosRealizados',[EjerciciosCOntroller::class,'realizados'])-> name('realizados');
 
-Route::get('ejercicioCrear/{id}',[EjerciciosCOntroller::class,'ejercicioCrear'])->name('ejercicioCrear');
 
+Route::get('ejercicioCrear/{id}',[EjerciciosCOntroller::class,'ejercicioCrear'])->name('ejercicioCrear');
 Route::get('ejerciciosEdicion/{id}',[EjerciciosCOntroller::class,'ejerciciosEdicion'])->name('ejerciciosEdicion');
 Route::post('ejerciciosEdicion',[EjerciciosCOntroller::class,'ejercicioCrearStore'])->name('ejercicioCrearStore');
+
+Route::get('ejercicioAnadirStore/{$estado_id}/{$ejercicio_id}',[EjerciciosCOntroller::class,'ejercicioAnadirStore'])->name('ejercicioAnadirStore');
 
 
 Route::get('estadosEdicion',[EstadosController::class,'estadosEdicion'])->name('estadosEdicion');
@@ -48,6 +50,9 @@ Route::get('editar/{id}',[EstadosController::class,'editar'])->name('editar');
 Route::post('editar',[EstadosController::class,'estadoEditarStore'])->name('estadoEditarStore');
 
 
+Route::get('/whatsapp', function () {
+    return view('whatsapp');
+});
 
 /*Route::get('ansiedad', function () {
     return view('estados/ansiedad');
@@ -72,7 +77,18 @@ Route::get('registroUsuario', function () {
 
 Route::post('registroUsuario',[RegisterController::class,'create'])-> name('registroUsuario');
 
-Auth::routes();
-
+//Auth::routes();
+Auth::routes([
+	'ejerciciosEdicion'    => false, 
+	'ejercicioCrear'    => false, 
+	'realizados'    => false, 
+	'estados'    => false, 
+    'estadosEdicion'    => false, 
+    'ejercicioCrearStore'   => false, 
+    'estadoCrearStore' => false, 
+    'estadosEliminar'    => false,  
+    'editar'  => false,  
+    'estadoEditarStore'   => false,  
+]);
 
 /*Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');*/
