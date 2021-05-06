@@ -58,7 +58,9 @@ class EstadosController extends Controller
 
 		$estado->save();
 
-    	return ($this->estadosEdicion());
+        $estados = Estado::all(); 
+        return view('estados.estadosEdicion',compact('estados'));
+    	//return ($this->estadosEdicion());
     }
 
     public function estadoCrear(Request $request){
@@ -75,28 +77,31 @@ class EstadosController extends Controller
 
         $estado->save();
 
-    	return Redirect::back();
+        $estados = Estado::all(); 
+        return view('estados.estadosEdicion',compact('estados'));
+    	//return Redirect::back();
 
     }
 
-    public function estadosEliminar($id){
+    public function estadosEliminar(Request $request){
     	$this->loggeado();
 
-    	$estado = Estado::find($id);
+    	$estado = Estado::find($request->estado_id);
 
     	if(!$estado){
     		return Redirect::back()->withErrors(['El estado a editar no se encuentra', 'The Message']);
     	}
 
         //Eliminamos los registros de la tabla que vincula los estados con los ejercicios.
-        while ($ejercicioConEstado = ejercicioConEstado::where('estado_id', $id)->first()) {
+        while ($ejercicioConEstado = ejercicioConEstado::where('estado_id', $request->estado_id)->first()) {
            $ejercicioConEstado->forceDelete();
         }
-
         
     	$estado->forceDelete();
 
-    	return Redirect::back();
+        $estados = Estado::all(); 
+        return view('estados.estadosEdicion',compact('estados'));
+    	//return Redirect::back();
     }
 }
  

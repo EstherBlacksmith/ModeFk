@@ -16,7 +16,7 @@
 			  	</div>	 
 			  
 			  	<div class="form-group">
-				    <label for="exampleFormControlTextarea1">Descripción de estado de ánimo</label>
+				    <label for="descripcionEstado">Descripción de estado de ánimo</label>
 				    <textarea class="form-control" id="descripcionEstado" name="descripcionEstado" rows="3" >{{$estado->descripcion}}</textarea>
 			  	</div>
 				<input type="hidden" name="idEstado" value="{{$estado->id}}">

@@ -31,19 +31,32 @@ Route::get('estados',[EjerciciosCOntroller::class, 'index'])-> name('estados');
 
 Route::post('estados',[EjerciciosCOntroller::class,'marcaRealizado'])-> name('marcaRealizado');
 
+
 Route::get('ejerciciosRealizados',[EjerciciosCOntroller::class,'realizados'])-> name('realizados');
 
 
-Route::get('ejercicioCrear/{id}',[EjerciciosCOntroller::class,'ejercicioCrear'])->name('ejercicioCrear');
-Route::get('ejerciciosEdicion/{id}',[EjerciciosCOntroller::class,'ejerciciosEdicion'])->name('ejerciciosEdicion');
-Route::post('ejerciciosEdicion',[EjerciciosCOntroller::class,'ejercicioCrearStore'])->name('ejercicioCrearStore');
+Route::get('ejerciciosQuitar/{id}',[EjerciciosCOntroller::class,'ejerciciosQuitar'])->name('ejerciciosQuitar');
 
-Route::get('ejercicioAnadirStore/{$estado_id}/{$ejercicio_id}',[EjerciciosCOntroller::class,'ejercicioAnadirStore'])->name('ejercicioAnadirStore');
+Route::post('ejerciciosQuitar',[EjerciciosCOntroller::class,'ejerciciosQuitarStore'])->name('ejerciciosQuitarStore');
+
+
+Route::get('ejercicioCrear/{id}',[EjerciciosCOntroller::class,'ejercicioCrear'])->name('ejercicioCrear');
+
+Route::post('ejercicioAnadirStore',[EjerciciosCOntroller::class,'ejercicioAnadirStore'])->name('ejercicioAnadirStore');
+
+
+Route::get('ejerciciosEdicion/{id}',[EjerciciosCOntroller::class,'ejerciciosEdicion'])->name('ejerciciosEdicion');
+
+Route::post('ejerciciosEdicion',[EjerciciosCOntroller::class,'ejercicioCrearStore'])->name('ejercicioCrearStore');
 
 
 Route::get('estadosEdicion',[EstadosController::class,'estadosEdicion'])->name('estadosEdicion');
+
 Route::post('estadosEdicion',[EstadosController::class,'estadoCrear'])->name('estadoCrearStore');
-Route::get('estadosEliminar/{id}',[EstadosController::class,'estadosEliminar'])->name('estadosEliminar');
+
+
+Route::post('estadosEliminar',[EstadosController::class,'estadosEliminar'])->name('estadosEliminar');
+
 
 Route::get('editar/{id}',[EstadosController::class,'editar'])->name('editar');
 
@@ -79,16 +92,16 @@ Route::post('registroUsuario',[RegisterController::class,'create'])-> name('regi
 
 //Auth::routes();
 Auth::routes([
-	'ejerciciosEdicion'    => false, 
-	'ejercicioCrear'    => false, 
-	'realizados'    => false, 
-	'estados'    => false, 
-    'estadosEdicion'    => false, 
+	'ejerciciosEdicion'     => false, 
+	'ejercicioCrear'        => false, 
+	'realizados'            => false, 
+	'estados'               => false, 
+    'estadosEdicion'        => false, 
     'ejercicioCrearStore'   => false, 
-    'estadoCrearStore' => false, 
-    'estadosEliminar'    => false,  
-    'editar'  => false,  
-    'estadoEditarStore'   => false,  
+    'estadoCrearStore'      => false, 
+    'estadosEliminar'       => false,  
+    'editar'                => false,  
+    'estadoEditarStore'     => false,  
 ]);
 
 /*Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');*/

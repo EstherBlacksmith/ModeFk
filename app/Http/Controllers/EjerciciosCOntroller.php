@@ -101,17 +101,16 @@ class EjerciciosCOntroller extends Controller
         foreach ($ejercicios as $ejer ) {
             foreach ($ejerciciosRealizados as $ejerRealizado ) {
                 if($ejer->id == $ejerRealizado->id){
-                    
-                    $ejercicioEstados[] = $ejer->id;
 
-                    $estado = Estado::find($ejer->estados_id);
-                    if ($estado){
-                        $ejercicioEstados[$ejer->id] = $estado->nombre;
+                  $estado = Estado::find($ejer->estados_id);
+
+                    if ($estado){  
+                        $ejercicioEstados[$ejer->id] = $estado->nombre;                      
                     }
                 }
             }
         }
-        dd($ejercicioEstados);
+        
         return view('ejerciciosRealizados',compact('ejercicios','ejerciciosRealizados','ejercicioEstados'));
 	}  
 
@@ -157,6 +156,45 @@ class EjerciciosCOntroller extends Controller
         return view('ejercicios.ejerciciosCrear',compact('estado','ejercicios'));
     }
 
+    public function ejerciciosQuitar($id){
+
+        $this->loggeado();
+
+        $estado = Estado::find($id);
+        $ejercicios = ejercicio::all();
+        $ejercicioConEstado = ejercicioConEstado::all()->where('estado_id',$id);
+
+
+        if(!$estado){
+            return Redirect::back()->withErrors(['El estado no se encuentra', 'The Message']);
+        }
+
+        return view('ejercicios.ejerciciosListaQuitar',compact('estado','ejercicios','ejercicioConEstado'));
+    }
+
+    public function ejerciciosQuitarStore( Request $request){
+
+        $this->loggeado();
+  
+        $ejercicio = ejercicio::find($request->ejercicio_id);
+
+        if(!$ejercicio){
+            return Redirect::back()->withErrors(['El ejercicio a eliminar no se encuentra', 'The Message']);
+        }
+
+        $id = $this->buscaEjerEstado($request->ejercicio_id,$request->id_estado);
+         if(!$id){
+            $ejercicioConEstado = ejercicioConEstado::find($id);
+            if($ejercicioConEstado){
+                $ejercicioConEstado->forceDelete();
+            }
+            
+        }      
+        
+        return Redirect::back();
+
+    }
+
 
 
     public function ejercicioCrearStore(Request $request){
@@ -179,33 +217,62 @@ class EjerciciosCOntroller extends Controller
 
         $ejercicio->nombre = $request->nombreEjercicio;
         $ejercicio->descripcion = $request->descripcionEjercicio;
-        //$ejercicio->estados_id = $request->id_estado;
+        $ejercicio->estados_id = $request->id_estado;
 
         $ejercicio->save();
 
         //creamos el registro en la tabla que relaciona los estados con sus ejercicios
-        $ejercicioConEstado = new ejercicioConEstado();
-        $ejercicioConEstado->ejercicio_id = $ejercicio->id;
-        $ejercicioConEstado->estado->id =  $request->id_estado;
-
-        $ejercicioConEstado->save();
+        $this->crearRelacionEstadosEjercicios($request->id_estado,$ejercicio->id);       
 
         return Redirect::back();
 
      }
 
-     public function ejercicioAnadirStore($estado_id,$ejercicio_id){
+    public function ejercicioAnadirStore(Request $request){
+       
         $this->loggeado();
-
+            
         //creamos el registro en la tabla que relaciona los estados con sus ejercicios
-        $ejercicioConEstado = new ejercicioConEstado();
-        $ejercicioConEstado->ejercicio_id = $ejercicio_id;
-        $ejercicioConEstado->estado->id =  $estado_id;
+        $this->crearRelacionEstadosEjercicios($request->id_estado,$request->id_ejercicio);
 
-
+        return Redirect::back();
 
      }
+     
+     public function crearRelacionEstadosEjercicios($id_estado,$id_ejercicio){
 
+        //creamos el registro en la tabla que relaciona los estados con sus ejercicios
+        $ejercicioConEstado = ejercicioConEstado::select('*')
+                ->where('ejercicio_id', '=', $id_ejercicio)
+                ->where('estado_id', '=',$id_estado)
+                ->get();
+
+        if(!$this->buscaEjerEstado($id_ejercicio,$id_estado)){
+            $ejercicioConEstado = new ejercicioConEstado();
+            $ejercicioConEstado->ejercicio_id = $id_ejercicio;
+            $ejercicioConEstado->estado_id =  $id_estado;
+
+            $ejercicioConEstado->save();
+        }
+     }
+
+    
+
+     public function buscaEjerEstado($id_ejercicio,$id_estado){
+
+          $ejercicioConEstado = ejercicioConEstado::select('*')
+            ->where('ejercicio_id', '=', $id_ejercicio)
+            ->where('estado_id', '=',$id_estado)
+            ->get();
+
+            if(!$ejercicioConEstado){
+                return $ejercicioConEstado->id;
+            }
+            else {
+                return false;
+            }
+     }
+     
 
 }
 	

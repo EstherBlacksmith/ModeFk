@@ -19,6 +19,7 @@
               <th scope="col">Descripción</th>
               <th scope="col">Editar Estado</th>
               <th scope="col">Añadir ejercicio</th>
+              <th scope="col">Quitar ejercicio</th>
               <th scope="col">Eliminar Estado</th>
               
             </tr>
@@ -29,7 +30,11 @@
             <td style="font-weight: bold; " > {{ $estado->nombre }}</td>
               <td > {{ $estado->descripcion }}</td>
               <td> <a href="{{route ('editar',$estado->id)}}" class="btn btn-lg"><i class="fas fa-edit" style="  color:RoyalBlue;font-size: 2em;"></i></a></td>
+
               <td> <a href="{{route ('ejercicioCrear',$estado->id)}}" class="btn btn-lg"><i class="fas fa-plus-square" style="color: ForestGreen ;font-size: 2em;"></i></a></td>
+
+              <td> <a href="{{route ('ejerciciosQuitar',$estado->id)}}" class="btn btn-lg"><i class="fas fa-minus-circle" style="color: orange ;font-size: 2em;"></i></a></td>
+
               <td> <button type="button" class="btn btn-lg" data-bs-toggle="modal"  data-bs-target="#es-{{ $estado->id }}" data-bs-dismiss="modal">
                     <i class="fas fa-trash-alt" style=" color: Tomato;font-size: 2em;"></i>
                   </button></td>
@@ -46,8 +51,12 @@
                           Se va a eliminar el estado <p class="text-danger">{{ $estado->nombre }}</p>
                         </div> 
                         <div class="modal-footer">
-                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                          <a href="{{route ('estadosEliminar',$estado->id)}}" class="btn  btn-lg"><button type="button" class="btn  btn-danger">Eliminar</button></a>
+                           <form method="post" action="{{route ('estadosEliminar')}}">
+                            @csrf
+                            <input type="hidden" name="estado_id" id="estado_id" value="{{$estado->id}}">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            <button type="submit" class="btn  btn-danger">Eliminar</button>
+                        </form>
                         </div>   
                       </div>
                     </div>
@@ -64,14 +73,14 @@
             <h5 class="card-title">Añadir Estado</h5>
             <h6 class="card-subtitle mb-2 text-muted">Crea un nuevo estado de ánimo</h6>
             <form method="post" action=" {{ route('estadoCrearStore')}} ">
-              <div class="form-group">
-                @csrf
+              @csrf
+              <div class="form-group">                
                 <input class="form-control" type="text" name="nombreEstado" id="nombreEstado" placeholder="Nombre del estado">
               </div>
               <div class="form-group">
                 <textarea class="form-control" name="descripcionEstado" id="descripcionEstado"  placeholder="Descripción del estado" rows="3"></textarea>
               </div>
-                          <button class="btn btn-light" type="submit">Crear</button>
+                <button class="btn btn-light" type="submit">Crear</button>
 
             </form>
            

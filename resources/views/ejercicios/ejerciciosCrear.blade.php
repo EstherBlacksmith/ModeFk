@@ -11,8 +11,9 @@
               <h5 class="card-title">Añadir Ejercicio</h5>
               <h6 class="card-subtitle mb-2 ">Crea un nuevo ejercicio para el estado <p class="font-weight-bold">{{$estado->nombre}}<p></h6>
               <form method="post" action=" {{ route('ejercicioCrearStore')}} ">
+                @csrf
                 <div class="form-group">
-                  @csrf
+                  
                   <input class="form-control" type="text" name="nombreEjercicio" id="nombreEjercicio" placeholder="Nombre del ejercicio">
                 </div>
                 <div class="form-group">
@@ -43,28 +44,27 @@
               <h5 class="card-title">Añade un ejercicio existente</h5>
               <h6 class="card-subtitle mb-2 ">Añade un ejercicio existente para el estado <p class="font-weight-bold">{{$estado->nombre}}<p></h6>
 
-              <form method="post" action=" {{ route('ejercicioAnadirStore', $estado->id, $ejercicio->id)}} ">
                 <div class="form-group">
-                  @csrf
+                  <form method="post" action = "{{ route('ejercicioAnadirStore')}} ">
+                    @csrf
+
+                   <input type="hidden" name="id_estado" id="id_estado" value="{{ $estado->id}}">
+
                     <label for="ControlSelect">Selecciona un ejercicio</label>
-                    <select class="form-control" id="ControlSelect">
-                      @foreach ($ejercicios as $ejercicio)
-                        @if ($ejercicio->estados_id  != $estado->id)
-                          <option name="ejercicio_id" id="ejercicio_id" value="{{ $estado->id}}">{{$ejercicio->nombre}} </option>
-                        @endif
-                      @endforeach
-                    </select>
-                  <input type="hidden" name="estado_id" id="estado_id" value="{{ $estado->id}}">
-
-                  </div>
-                  <button class="btn btn-light" type="submit">Añadir</button>
-              </form>             
-              
-
+                      <select class="form-control" name="id_ejercicio" id="id_ejercicio">                    
+                        @foreach ($ejercicios as $ejercicio)
+                          @if ($ejercicio->estados_id  != $estado->id)
+                            <option  value="{{ $ejercicio->id}}">{{$ejercicio->nombre}} </option>
+                          @endif
+                        @endforeach
+                      </select>                 
+                    <button class="btn btn-light" type="submit">Añadir</button>
+                  </form>
+              </div>
             </div>
           </div>
       </div>
 
   </div>
 </div>
-@stop
+@endsection

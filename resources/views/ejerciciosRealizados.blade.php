@@ -7,18 +7,23 @@
   <div class="col-5" >
   	<div class="row justify-content-md-center" >
   		<ul class="list-group" >
+
   			@foreach ($ejerciciosRealizados as $ejercicioHecho)				  
   				<li class="list-group-item align-items-center verde" >
-      			<h4 style="font-weight: bold; ">{{ $ejercicioHecho->nombre }}</h4>
+      			<h3 style="font-weight: bold; ">{{ $ejercicioHecho->nombre }}</h3>
             Realizado un total de <span class="badge badge-info verdeClaro"> {{ $ejercicioHecho->total }} </span>  veces        
-    			</li> 
-          @foreach($ejercicioEstados as $ejerEstado)
-            @if($ejerEstado->id = $ejercicioHecho->ejercicio_id)
-              {{$ejerEstado->nombre}}
-            @endif
-          @endforeach
-    		@endforeach
-  		</ul>
+    		 
+            @foreach($ejercicioEstados as $ejerEstado)
+              @if($ejerEstado = $ejercicioHecho->ejercicio_id)
+              @if($loop->first)
+               <h4 class="text-white"> {{$ejercicioEstados[$ejerEstado ]}}</h4>
+                @endif
+              @endif
+            @endforeach
+           </li>
+      	@endforeach
+        
+  		</ul>   
   	</div>
   </div>
 </div>
