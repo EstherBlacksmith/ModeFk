@@ -10,7 +10,6 @@ use App\Models\Estado;
 use App\Models\ejercicio;
 use App\Models\RegistroEjercicios;
 use App\Models\ejercicioConEstado;
-
 use Carbon\Carbon;
 
 
@@ -35,8 +34,9 @@ class EjerciciosCOntroller extends Controller
     public function ejerciciosYEstados(){
 
         $ejerciciosYEstados = DB::table('ejercicios')
-                                ->join('estados', 'estados.id', '=', 'ejercicios.estados_id')
-                                ->select('ejercicios.*')
+                               // ->join('estados', 'estados.id', '=', 'ejercicios.estados_id')
+                                ->join('ejercicio_con_estados', 'ejercicio_id', '=', 'ejercicios.id')
+                                ->select('ejercicios.*','ejercicio_con_estados.*')
                                 ->get();
 
         return $ejerciciosYEstados;
@@ -76,13 +76,13 @@ class EjerciciosCOntroller extends Controller
     public function realizadosHoy(){        
 
         $this->loggeado();
-        $carbon = new Carbon();                  
-        $today = Carbon::now();
+
         $yesterday = Carbon::now()->subHours(24);
 
         $realizadosHoy = RegistroEjercicios::where('ejercicioHecho', '>',$yesterday)
                                 ->where('user_id',$this->id)
-                                ->get();
+                                ->get()
+                                ->toArray();
 
          return $realizadosHoy;
                                                  
@@ -94,6 +94,7 @@ class EjerciciosCOntroller extends Controller
     }*/
 
 	public function realizados(){        
+
         $ejercicioEstados = array();
         $ejercicios = $this->ejerciciosYEstados();
         $ejerciciosRealizados = $this-> ejerciciosRealizados(); 
@@ -123,43 +124,78 @@ class EjerciciosCOntroller extends Controller
                                 
         $estados = Estado::all(); 
 
-        $ejercicios = $this->ejerciciosYEstados();
+        $ejerciciosYEstados = $this->ejerciciosYEstados();
 
-        return view('estados',compact('estados','ejercicios','realizadosHoy'));
+        $yesterday = Carbon::now()->subHours(24);
+
+        return view('estados',compact('estados','ejerciciosYEstados','realizadosHoy','yesterday'));
 
     }
 
 
-   /* public function ejerciciosEdicion($id){
+    public function ejerciciosEdicion(){
         $this->loggeado();
 
-        $estado = Estado::find($id);
+        $ejercicios = ejercicio::all();
 
-        if(!$estado){
+       /* if(!$estado){
             return Redirect::back()->withErrors(['El estado no se encuentra', 'The Message']);
+        }*/
+
+        return view('ejercicios.ejerciciosEdicion',compact('ejercicios'));
+    }
+ 
+    public function ejerciciosEdicionStore(Request $request){
+        $ok = false;
+        
+        $ejercicio = ejercicio::find($request->id);
+        
+        if($ejercicio->id != 0){
+            if ($request->elemento == "nombre" and ( $ejercicio->nombre != $request->valor)){
+                $ejercicio->nombre = $request->valor;
+            }
+
+            if ($request->elemento == "descripcion" and ( $ejercicio->descripcion != $request->valor)){
+                $ejercicio->descripcion = $request->valor;
+            }
+
+            $ejercicio->save();
+            $ok = true;
         }
-
-        return view('ejercicios.ejerciciosEdicion',compact('estado'));
-    }*/
-
+        return $request->elemento;
+    }
 
     public function ejercicioCrear($id){
         $this->loggeado();
 
         $estado = Estado::find($id);
-        $ejercicios = ejercicio::all();
 
         if(!$estado){
             return Redirect::back()->withErrors(['El estado no se encuentra', 'The Message']);
         }
 
-        return view('ejercicios.ejerciciosCrear',compact('estado','ejercicios'));
+        // Llega el estado por id
+        // Coger todos los ejercicos
+        // Quitar todos los ejercicios que pertenecen al estado
+
+        //$ejercicios = ejercicio
+
+        $idsEjerciciosSinEstado = ejercicioConEstado::where('estado_id', [$id])
+            ->select('ejercicio_id')
+            ->get()
+            ->toArray();
+
+        $ejercicios = ejercicio::whereNotIn('id', $idsEjerciciosSinEstado)
+            ->get()
+            ->toArray();
+
+        
+        return view('ejercicios.ejerciciosCrear',compact('id','ejercicios','estado'));
     }
 
     public function ejerciciosQuitar($id){
 
         $this->loggeado();
-
         $estado = Estado::find($id);
         $ejercicios = ejercicio::all();
         $ejercicioConEstado = ejercicioConEstado::all()->where('estado_id',$id);
@@ -175,21 +211,17 @@ class EjerciciosCOntroller extends Controller
     public function ejerciciosQuitarStore( Request $request){
 
         $this->loggeado();
-  
         $ejercicio = ejercicio::find($request->ejercicio_id);
 
         if(!$ejercicio){
             return Redirect::back()->withErrors(['El ejercicio a eliminar no se encuentra', 'The Message']);
         }
 
-        $id = $this->buscaEjerEstado($request->ejercicio_id,$request->id_estado);
-         if(!$id){
-            $ejercicioConEstado = ejercicioConEstado::find($id);
-            if($ejercicioConEstado){
-                $ejercicioConEstado->forceDelete();
-            }
-            
-        }      
+        $ejercicioConEstado = $this->buscaEjerEstado($request->ejercicio_id,$request->estado_id);
+    
+        if($ejercicioConEstado){
+            $ejercicioConEstado->forceDelete();
+        }
         
         return Redirect::back();
 
@@ -217,7 +249,6 @@ class EjerciciosCOntroller extends Controller
 
         $ejercicio->nombre = $request->nombreEjercicio;
         $ejercicio->descripcion = $request->descripcionEjercicio;
-        $ejercicio->estados_id = $request->id_estado;
 
         $ejercicio->save();
 
@@ -226,7 +257,26 @@ class EjerciciosCOntroller extends Controller
 
         return Redirect::back();
 
-     }
+    }
+
+    public function crearRelacionEstadosEjercicios($estado_id,$ejercicio_id){
+
+
+        //creamos el registro en la tabla que relaciona los estados con sus ejercicios
+        $ejercicioConEstado = ejercicioConEstado::select('*')
+                ->where('ejercicio_id', '=', $ejercicio_id)
+                ->where('estado_id', '=',$estado_id)
+                ->get();
+
+        if(!$this->buscaEjerEstado($ejercicio_id,$estado_id)){
+            $ejercicioConEstado = new ejercicioConEstado();
+            $ejercicioConEstado->ejercicio_id = $ejercicio_id;
+            $ejercicioConEstado->estado_id =  $estado_id;
+
+            $ejercicioConEstado->save();             
+        }
+
+    }
 
     public function ejercicioAnadirStore(Request $request){
        
@@ -237,36 +287,20 @@ class EjerciciosCOntroller extends Controller
 
         return Redirect::back();
 
-     }
+    }
      
-     public function crearRelacionEstadosEjercicios($id_estado,$id_ejercicio){
-
-        //creamos el registro en la tabla que relaciona los estados con sus ejercicios
-        $ejercicioConEstado = ejercicioConEstado::select('*')
-                ->where('ejercicio_id', '=', $id_ejercicio)
-                ->where('estado_id', '=',$id_estado)
-                ->get();
-
-        if(!$this->buscaEjerEstado($id_ejercicio,$id_estado)){
-            $ejercicioConEstado = new ejercicioConEstado();
-            $ejercicioConEstado->ejercicio_id = $id_ejercicio;
-            $ejercicioConEstado->estado_id =  $id_estado;
-
-            $ejercicioConEstado->save();
-        }
-     }
-
+    
     
 
-     public function buscaEjerEstado($id_ejercicio,$id_estado){
+     public function buscaEjerEstado($ejercicio_id,$estado_id){
 
           $ejercicioConEstado = ejercicioConEstado::select('*')
-            ->where('ejercicio_id', '=', $id_ejercicio)
-            ->where('estado_id', '=',$id_estado)
-            ->get();
+            ->where('ejercicio_id', '=', $ejercicio_id)
+            ->where('estado_id', '=',$estado_id)
+            ->first();
 
-            if(!$ejercicioConEstado){
-                return $ejercicioConEstado->id;
+            if($ejercicioConEstado){
+                return $ejercicioConEstado;
             }
             else {
                 return false;

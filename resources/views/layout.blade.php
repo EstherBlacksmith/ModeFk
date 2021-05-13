@@ -8,8 +8,9 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/jquery.tabledit.js"></script>
+<script src='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js'></script>
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-
 
     <title>ModeFk</title>    
 
@@ -59,6 +60,9 @@
                     <a class="navbar-brand text-white" href="{{ route('registroUsuario') }}">Regístrate</a>
                   </li>
                   <li class="nav-item">
+                    <a class="navbar-brand text-white" href="{{ route('contactoEmergencia') }}">Contacto emergencia</a>
+                  </li>
+                  <li class="nav-item">
                     <a class="navbar-brand text-white" href="{{ route('estadosEdicion') }}">Edición de estados</a>
                   </li>
   				    </ul>	   
@@ -72,6 +76,13 @@
   			<h3> @yield('tittle2')</h3>
   		</div>
   	</div>
+    
+  <form id="logout-form" action="{{ route('logout') }}" method="POST">
+              @csrf
+     <button><a> Logout</a></button>
+
+  </form>
+    
   	@yield('contenido1')
   	@yield('contenido2')
 

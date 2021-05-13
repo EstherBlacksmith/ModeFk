@@ -18,12 +18,13 @@
           </thead>
           <tbody>
             <tr>
-            @foreach ($ejercicioConEstado as $ejercicioE)
+            @foreach ($ejercicioConEstado as $ejercicioEst)
+
               @foreach($ejercicios as $ejercicio)
-                @if($ejercicioE->id == $ejercicio->id)
-                      @if($loop->first)
+                @if($ejercicioEst->ejercicio_id == $ejercicio->id)
+
                   <td style="font-weight: bold; "> {{ $ejercicio->nombre }}</td>
-                    <td > {{ $ejercicio->descripcion }}   estado->{{$estado->id}} ejercicio->{{$ejercicio->id}}</td>
+                    <td > {{ $ejercicio->descripcion }} </td>
                     <form method="post" action="{{route('ejerciciosQuitarStore')}}">
                       @csrf
                       <input type="hidden" name="ejercicio_id" id="ejercicio_id" value="{{$ejercicio->id}}">
@@ -33,7 +34,7 @@
                       <i class="fas fa-trash-alt" style=" color: Tomato;font-size: 2em;"></i></button>
                     </td>
                   </form>
-                  @endif
+                
                   @endif
 
               

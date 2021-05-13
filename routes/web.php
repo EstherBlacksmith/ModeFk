@@ -45,9 +45,9 @@ Route::get('ejercicioCrear/{id}',[EjerciciosCOntroller::class,'ejercicioCrear'])
 Route::post('ejercicioAnadirStore',[EjerciciosCOntroller::class,'ejercicioAnadirStore'])->name('ejercicioAnadirStore');
 
 
-Route::get('ejerciciosEdicion/{id}',[EjerciciosCOntroller::class,'ejerciciosEdicion'])->name('ejerciciosEdicion');
+Route::get('ejerciciosEdicion',[EjerciciosCOntroller::class,'ejerciciosEdicion'])->name('ejerciciosEdicion');
 
-Route::post('ejerciciosEdicion',[EjerciciosCOntroller::class,'ejercicioCrearStore'])->name('ejercicioCrearStore');
+Route::post('ejerciciosEdicionStore',[EjerciciosCOntroller::class,'ejerciciosEdicionStore'])->name('ejerciciosEdicionStore');
 
 
 Route::get('estadosEdicion',[EstadosController::class,'estadosEdicion'])->name('estadosEdicion');
@@ -78,8 +78,14 @@ Route::get('tristeza', function () {
 Route::get('bienestar', function () {
     return view('estados/bienestar');
 })-> name('bienestar');*/
+Route::get('contactoEmergencia', function () {
+    return "contactoEmergencia";
+})->name('contactoEmergencia');
 
 /*Usuarios*/
+Route::post('inicioSesion',[UsuariosController::class,'logout'])->name('logout');
+
+
 Route::get('inicioSesion',[UsuariosController::class,'inicioSesionShow']);
 
 Route::post('inicioSesion',[UsuariosController::class,'inicioSesion'])-> name('inicioSesion');

@@ -16,7 +16,7 @@
             @foreach($ejercicioEstados as $ejerEstado)
               @if($ejerEstado = $ejercicioHecho->ejercicio_id)
               @if($loop->first)
-               <h4 class="text-white"> {{$ejercicioEstados[$ejerEstado ]}}</h4>
+               <h4 class="text-white"> {{$ejercicioEstados[$ejerEstado]}}</h4>
                 @endif
               @endif
             @endforeach

@@ -17,17 +17,29 @@ class muestraDatosUsuarioMiddleware
      * @return mixed
      */
     public function handle(Request $request, Closure $next)
-    {   
+    { 
+        $response = $next($request);
+        
+               
        if (Auth::check()){
-            $user = User::where('email', request()->cookie('email'))->first();
+            $user = Auth()->user();
+          //  $user = User::where('email', request()->cookie('email'))->first();
             
-            if(! $user){
-                echo "Inicia sesión"        ;
+            if($user->id == null){
+                echo "Inicia sesión";
             }
             else{
                 echo "Hola ".$user->name;
             }
+        }else{
+            echo "Inicia sesión" ;
         }
-        return $next($request);
+
+       // return $next($request);
+
+        return $response;
     }
 }
+
+
+    
