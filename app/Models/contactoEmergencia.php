@@ -16,7 +16,7 @@ class contactoEmergencia extends Model
      */
     protected $fillable = [
         'nombre',
-        'primerApellido'
+        'primerApellido',
         'telefono',
         'user_id',              
     ];

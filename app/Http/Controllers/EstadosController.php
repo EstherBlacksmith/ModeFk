@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use App\Models\Estado;
 use App\Models\ejercicioConEstado;
+use App\Models\contactoEmergencia;
 
 class EstadosController extends Controller
 {

@@ -10,6 +10,8 @@ use App\Models\Estado;
 use App\Models\ejercicio;
 use App\Models\RegistroEjercicios;
 use App\Models\ejercicioConEstado;
+use App\Models\contactoEmergencia;
+
 use Carbon\Carbon;
 
 
@@ -128,7 +130,9 @@ class EjerciciosCOntroller extends Controller
 
         $yesterday = Carbon::now()->subHours(24);
 
-        return view('estados',compact('estados','ejerciciosYEstados','realizadosHoy','yesterday'));
+        $contactosEmergencia = contactoEmergencia::where('user_id', Auth::id())->get();
+
+        return view('estados',compact('estados','ejerciciosYEstados','realizadosHoy','yesterday','contactosEmergencia'));
 
     }
 

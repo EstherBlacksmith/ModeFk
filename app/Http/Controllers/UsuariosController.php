@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
-
+use App\Models\contactoEmergencia;
 
 class UsuariosController extends Controller
 {
@@ -57,11 +57,49 @@ class UsuariosController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect('/home');
+        return redirect('/inicioSesion');
     }
 
 
+    public function contactoEmergenciaView(){
+      $contactosEmergencia = contactoEmergencia::where('user_id' , Auth::id())->get();
 
+      return view ('usuarios/contactoEmergencia',compact('contactosEmergencia'));
+    }
+
+   public function contactoEmergenciaStore(Request $request){
+
+
+      $validated = $request->validate([
+        'nombre' => 'required|max:45',
+        'primerApellido'=> 'required|max:45',
+        'telefono' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:6',
+      ]);
+
+      $contactoEmergencia = new contactoEmergencia();
+     
+      
+      $contactoEmergencia->nombre = $request->nombre;
+      $contactoEmergencia->primerApellido = $request->primerApellido;
+      $contactoEmergencia->telefono = $request->telefono;
+      $contactoEmergencia->user_id = Auth::id();
+
+      $contactoEmergencia->save();
+
+      return redirect()->back()->with('success', 'Contacto creado correctamente');   
+
+    }
+
+    public function contactoEliminarStore(Request $request){
+      $contactoEmergencia = contactoEmergencia::find($request->contacto_id);
+
+      if($contactoEmergencia->id != 0){
+        $contactoEmergencia->delete();
+      }
+      return redirect()->back()->with('success', 'Contacto eliminado');   
+
+
+    }
 
 
 }

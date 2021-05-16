@@ -1,5 +1,5 @@
 @extends ('layout')
-@include('scriptWhatsapp')
+
 @section('tittle2','ModeFk Estados de ánimo')
 
 @section('contenido1')

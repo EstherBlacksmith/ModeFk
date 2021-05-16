@@ -47,24 +47,44 @@
   				        <li class="nav-item">
   				        	<a class="navbar-brand text-white" href="{{ route('home') }}">Inicio</a>
   				        </li>
-  				        <li class="nav-item">
-  				        	<a class="navbar-brand text-white" href="{{ route('estados') }}">Estados de ánimo</a>
-  				        </li>
+  				        
+
+                  @guest
+                    <li class="nav-item">
+                      <a class="navbar-brand text-white" href="{{ route('inicioSesion') }}">Inicia sesión</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="navbar-brand text-white" href="{{ route('registroUsuario') }}">Regístrate</a>
+                    </li>
+                  @endguest
+ 
+                  @auth   
+                  <li class="nav-item">
+                    <a class="navbar-brand text-white" href="{{ route('estados') }}">Estados de ánimo</a>
+                  </li>
                   <li class="nav-item">
                     <a class="navbar-brand text-white" href="{{ route('realizados') }}">Ejercicios realizados</a>
                   </li>
+                   
                   <li class="nav-item">
-                    <a class="navbar-brand text-white" href="{{ route('inicioSesion') }}">Inicia sesión</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="navbar-brand text-white" href="{{ route('registroUsuario') }}">Regístrate</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="navbar-brand text-white" href="{{ route('contactoEmergencia') }}">Contacto emergencia</a>
+                    <a class="navbar-brand text-white" href="{{ route('contactoEmergenciaView') }}">Contacto emergencia</a>
                   </li>
                   <li class="nav-item">
                     <a class="navbar-brand text-white" href="{{ route('estadosEdicion') }}">Edición de estados</a>
                   </li>
+
+                  <li class="nav-item">
+                    <a href="{{ route('logout') }}" class="navbar-brand text-white"  onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                    Logout
+                    </a>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        {{ csrf_field() }}
+                    </form>
+                  </li>
+                  @endauth
+                          
+                
+                 
   				    </ul>	   
   				</div>
   			</div>
@@ -76,21 +96,17 @@
   			<h3> @yield('tittle2')</h3>
   		</div>
   	</div>
-    
-  <form id="logout-form" action="{{ route('logout') }}" method="POST">
-              @csrf
-     <button><a> Logout</a></button>
 
-  </form>
-    
+
+   
   	@yield('contenido1')
   	@yield('contenido2')
 
   	<footer class="text-center " style="position: absolute;
                             bottom: 0;
                             width: 100%;
-                            height: 2.5rem;">  
-      <h5 class="font-weight-bold">DAW 2 M7 2021</h5>
+                            height: 40px;">  
+      <h5 class="font-weight-bold">ModeFk 2021  </h5>
    	</footer>  
  </body>
  </html>

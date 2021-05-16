@@ -23,17 +23,30 @@ const $form = document.querySelector('#form');
 const buttonSubmit = document.querySelector('#submit');
 const urlDesktop = 'https://web.whatsapp.com/';
 const urlMobile = 'whatsapp://';
-const phone = '34636902219';
+var telefonoContacto = '';
+var nombreContacto = '';
 
+
+
+//Recuperamos los valores para enviar el mensaje
+function myFunction() { 
+
+    telefonoContacto = '34' + document.getElementById("contactoEmergencia").value; 
+    var x = document.getElementById("contactoEmergencia").selectedIndex;
+    var y = document.getElementById("contactoEmergencia").options;
+    nombreContacto = y[x].text;
+} 
+ 
 $form.addEventListener('submit', (event) => {
+
     event.preventDefault()
     buttonSubmit.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i>'
     buttonSubmit.disabled = true
     setTimeout(() => {
-        let phone = document.querySelector('#name').value
-        let name = document.querySelector('#name').value
-        let lastname = document.querySelector('#lastname').value        
-        let message = 'send?phone=' + phone + '&text=Buenas, %0A' + contactoEmergencia + '%0A%0A Eres mi contacto de emergencia en caso de ansiedad.%0A Soy %0A' + name + '%0A'  + lastname + '%0A¿Me puedes llamar?%0A' 
+       // let telefonoContacto = document.querySelector('#name').value
+        //let name = document.querySelector('#name').value
+        //let lastname = document.querySelector('#lastname').value        
+        let message = 'send?phone=' + telefonoContacto + '&text=Buenas, %0A' + nombreContacto + '%0A%0A Eres mi contacto de emergencia en caso de ansiedad.%0A¿Me puedes llamar?%0A' 
         if (isMobile()) {
             window.open(urlMobile + message, '_blank')
         } else {
