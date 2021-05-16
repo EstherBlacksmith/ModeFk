@@ -23,7 +23,6 @@ class muestraDatosUsuarioMiddleware
                
        if (Auth::check()){
             $user = Auth()->user();
-          //  $user = User::where('email', request()->cookie('email'))->first();
             
             if($user->id == null){
                 echo "Inicia sesión";
@@ -32,10 +31,9 @@ class muestraDatosUsuarioMiddleware
                 echo "Hola ".$user->name;
             }
         }else{
-            echo "Inicia sesión" ;
+            echo "Inicia sesión";
         }
 
-       // return $next($request);
 
         return $response;
     }

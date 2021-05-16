@@ -40,20 +40,6 @@ Route::get('registroUsuario', function () {
 
 Route::post('registroUsuario',[RegisterController::class,'create'])-> name('registroUsuario');
 
-//Auth::routes();
-/*
-Auth::routes([
-	'ejerciciosEdicion'     => false, 
-	'ejercicioCrear'        => false, 
-	'realizados'            => false, 
-	'estados'               => false, 
-    'estadosEdicion'        => false, 
-    'ejercicioCrearStore'   => false, 
-    'estadoCrearStore'      => false, 
-    'estadosEliminar'       => false,  
-    'editar'                => false,  
-    'estadoEditarStore'     => false,  
-]);*/
 
 Route::group(['middleware' => 'admin'], function () {
 
@@ -66,6 +52,7 @@ Route::group(['middleware' => 'admin'], function () {
 
     Route::post('ejercicioAnadirStore',[EjerciciosCOntroller::class,'ejercicioAnadirStore'])->name('ejercicioAnadirStore');
 
+    Route::post('ejercicioCrearStore',[EjerciciosCOntroller::class,'ejercicioCrearStore'])->name('ejercicioCrearStore');
 
     Route::get('ejerciciosEdicion',[EjerciciosCOntroller::class,'ejerciciosEdicion'])->name('ejerciciosEdicion');
 

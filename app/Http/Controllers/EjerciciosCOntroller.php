@@ -287,7 +287,7 @@ class EjerciciosCOntroller extends Controller
         $this->loggeado();
             
         //creamos el registro en la tabla que relaciona los estados con sus ejercicios
-        $this->crearRelacionEstadosEjercicios($request->id_estado,$request->id_ejercicio);
+        $this->crearRelacionEstadosEjercicios($request->id_estado,$request->ejercicio_id);
 
         return Redirect::back();
 

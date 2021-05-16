@@ -14,15 +14,7 @@
 		    <label for="Password">Password</label>
 		    <input type="password" class="form-control" id="password" name="password" placeholder="Contraseña">
 				<a href="#" class="fas fa-eye" id="eye" onclick="myFunction()"></a>
-		</div>
-
-        <div class="form-check">
-          <!--  <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>-->
-
-            <label class="form-check-label" for="remember">
-                Recuérdame
-            </label>
-        </div>
+		</div>         
 
     	<button type="submit" class="btn btn-primary">Enviar</button>
 		</form>

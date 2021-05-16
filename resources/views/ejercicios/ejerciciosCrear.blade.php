@@ -19,12 +19,12 @@
                    <input type="hidden" name="id_estado" id="id_estado" value="{{ $estado->id}}">
 
                     <label for="ControlSelect">Selecciona un ejercicio</label>
-                      <select class="form-control form-select" name="id_ejercicio" id="id_ejercicio"> 
+                      <select class="form-control form-select" name="ejercicio_id" id="ejercicio_id"> 
 
 
                         @foreach ($ejercicios as $ejercicio)
                             
-                          <option  value="{{$ejercicio['id']}}">{{$ejercicio['nombre']}} {{$ejercicio['id']}}</option>
+                          <option name="ejercicio_id" value="{{$ejercicio['id']}}">{{$ejercicio['nombre']}} {{$ejercicio['id']}}</option>
 
                         @endforeach
                       </select>                 

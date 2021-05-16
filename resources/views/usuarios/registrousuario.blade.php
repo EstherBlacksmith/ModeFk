@@ -1,5 +1,5 @@
 @extends ('layout')
-@section('tittle2','ModeFk Resgistro de usuario')
+@section('tittle2','Registro de usuario')
 
 @section('contenido1')
 <div class="container">
