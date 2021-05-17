@@ -11,16 +11,15 @@
 <div class="container">
 	<div class="row ">
     <div class="col ">  
-      <div class="row">		
-        <table class="table  table-striped gris" >
-          <thead class="mar">
+        <table class="table  table-striped " >
+          <thead >
             <tr>
               <th scope="col">Estado</th>
               <th scope="col">Descripción</th>
-              <th scope="col">Editar Estado</th>
-              <th scope="col">Añadir ejercicio</th>
-              <th scope="col">Quitar ejercicio</th>
-              <th scope="col">Eliminar Estado</th>
+              <th scope="col" style="width: 5%;">Editar Estado</th>
+              <th scope="col" style="width: 5%;">Añadir ejercicio</th>
+              <th scope="col" style="width: 5%;">Quitar ejercicio</th>
+              <th scope="col" style="width: 5%;">Eliminar Estado</th>
               
             </tr>
           </thead>
@@ -29,14 +28,14 @@
             @foreach ($estados as $estado)
             <td style="font-weight: bold; " > {{ $estado->nombre }}</td>
               <td > {{ $estado->descripcion }}</td>
-              <td> <a href="{{route ('editar',$estado->id)}}" class="btn btn-lg"><i class="fas fa-edit" style="  color:RoyalBlue;font-size: 2em;"></i></a></td>
+              <td> <a href="{{route ('editar',$estado->id)}}" class="btn btn-lg"><i class="fas fa-edit" style="  color:RoyalBlue;font-size: 1em;"></i></a></td>
 
-              <td> <a href="{{route ('ejercicioCrear',$estado->id)}}" class="btn btn-lg"><i class="fas fa-plus-square" style="color: ForestGreen ;font-size: 2em;"></i></a></td>
+              <td> <a href="{{route ('ejercicioCrear',$estado->id)}}" class="btn btn-lg"><i class="fas fa-plus-square" style="color: ForestGreen ;font-size: 1em;"></i></a></td>
 
-              <td> <a href="{{route ('ejerciciosQuitar',$estado->id)}}" class="btn btn-lg"><i class="fas fa-minus-circle" style="color: orange ;font-size: 2em;"></i></a></td>
+              <td> <a href="{{route ('ejerciciosQuitar',$estado->id)}}" class="btn btn-lg"><i class="fas fa-minus-circle" style="color: orange ;font-size: 1em;"></i></a></td>
 
               <td> <button type="button" class="btn btn-lg" data-bs-toggle="modal"  data-bs-target="#es-{{ $estado->id }}" data-bs-dismiss="modal">
-                    <i class="fas fa-trash-alt" style=" color: Tomato;font-size: 2em;"></i>
+                    <i class="fas fa-trash-alt" style=" color: Tomato;font-size: 1em;"></i>
                   </button></td>
 
                   <!-- Modal -->
@@ -95,13 +94,12 @@
             @endif
 
           </div>
-        </div>
 
       </div>  
     </div>
   </div>
 </div>
 		
-@stop
+@endsection
 
 

@@ -42,8 +42,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    //Sabremos el rol del usuario ['andmin', 'usuario'->esta es por defecto
     public function esUsuario()
     {
         return $this->rol === 'usuario';
     }
+
+    
 }

@@ -90,10 +90,6 @@ class EjerciciosCOntroller extends Controller
                                                  
     }
 
-   /* public function sumaRealizados(){
-        $sumaEjercicios = RegistroEjercicios::groupBy('ejercicio_id')->select('ejercicio_id', DB::raw('count(*) as total'))->get()->toArray();
-        return $sumaEjercicios;
-    }*/
 
 	public function realizados(){        
 
@@ -142,10 +138,6 @@ class EjerciciosCOntroller extends Controller
 
         $ejercicios = ejercicio::all();
 
-       /* if(!$estado){
-            return Redirect::back()->withErrors(['El estado no se encuentra', 'The Message']);
-        }*/
-
         return view('ejercicios.ejerciciosEdicion',compact('ejercicios'));
     }
  
@@ -182,19 +174,22 @@ class EjerciciosCOntroller extends Controller
         // Coger todos los ejercicos
         // Quitar todos los ejercicios que pertenecen al estado
 
-        //$ejercicios = ejercicio
 
-        $idsEjerciciosSinEstado = ejercicioConEstado::where('estado_id', [$id])
+        $idsEjerciciosConEstado = ejercicioConEstado::where('estado_id', [$id])
             ->select('ejercicio_id')
             ->get()
             ->toArray();
 
-        $ejercicios = ejercicio::whereNotIn('id', $idsEjerciciosSinEstado)
+        $ejercicios = ejercicio::whereNotIn('id', $idsEjerciciosConEstado)
+            ->get()
+            ->toArray();
+
+        $ejerciciosIncluidos =ejercicio::whereIn('id', $idsEjerciciosConEstado)
             ->get()
             ->toArray();
 
         
-        return view('ejercicios.ejerciciosCrear',compact('id','ejercicios','estado'));
+        return view('ejercicios.ejerciciosCrear',compact('id','ejercicios','estado','ejerciciosIncluidos'));
     }
 
     public function ejerciciosQuitar($id){
@@ -222,10 +217,14 @@ class EjerciciosCOntroller extends Controller
         }
 
         $ejercicioConEstado = $this->buscaEjerEstado($request->ejercicio_id,$request->estado_id);
-    
+
+
         if($ejercicioConEstado){
-            $ejercicioConEstado->forceDelete();
+            $ejercicioConEstado->each(function ($ejercicioConEstado) {
+                 $ejercicioConEstado->forcedelete();
+            });
         }
+      
         
         return Redirect::back();
 
@@ -281,6 +280,30 @@ class EjerciciosCOntroller extends Controller
         }
 
     }
+
+
+     public function eliminarEjercicios(Request $request){
+        
+        $ejercicio = ejercicio::find($request->ejercicio_id);
+        //eliminamos el registro en la tabla que relaciona los estados con sus ejercicios
+        $ejercicioConEstado = ejercicioConEstado::select('ejercicio_id')
+                ->where('ejercicio_id', '=', $request->ejercicio_id)                
+                ->get();
+
+        if($ejercicioConEstado){
+            $ejercicioConEstado->each(function ($ejercicioConEstado) {
+                $ejercicioConEstado->forcedelete();
+            });          
+
+        }
+        
+        $ejercicio->forcedelete();
+
+        return Redirect::back();
+
+    }
+
+
 
     public function ejercicioAnadirStore(Request $request){
        

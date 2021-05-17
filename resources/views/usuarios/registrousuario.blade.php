@@ -71,6 +71,18 @@
                         </div>
                     </form>
                 </div>
+
+                    @if(session()->has('success'))
+                   <div class="alert alert-info" role="alert">
+                        {{ session()->get('success') }}
+                    </div>
+                    @endif
+
+                     @if(session()->has('error'))
+                    <div class="alert alert-warning">
+                        {{ session()->get('error') }}
+                    </div>
+                    @endif
             </div>
         </div>
     </div>

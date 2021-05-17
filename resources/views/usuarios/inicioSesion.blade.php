@@ -1,5 +1,5 @@
 @extends ('layout')
-@section('tittle2','ModeFk Inicio de sesión')
+@section('tittle2','Inicio de sesión')
 @section('contenido1')
 
 <div class="container">
@@ -31,15 +31,11 @@
 
 	</div>
 
-  <!--  <div class="row justify-content-md-center">
-
-
-        @if (Route::has('password.request'))
-            <a class="btn btn-link" href="{{ route('password.request') }}">
-                {{ __('Forgot Your Password?') }}
-            </a>
-        @endif
-    </div>-->
+	@if(session()->has('success'))
+    <div class="alert alert-success">
+        {{ session()->get('success') }}
+    </div>
+	@endif
 
 	<div class="row justify-content-md-center">
 		<p>¿Aún no tienes usuario? Regístrate <a href="{{ route('registroUsuario') }}">aquí</a></p>
@@ -47,7 +43,8 @@
 
 </div>
 
-@stop
+
+@endsection
 <script type="text/javascript">
 
 function myFunction() {

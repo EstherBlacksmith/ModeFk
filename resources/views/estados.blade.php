@@ -1,15 +1,20 @@
 @extends ('layout')
 
-@section('tittle2','ModeFk Estados de ánimo')
+@section('tittle2','Estados de ánimo')
 
 @section('contenido1')
+ <div class="row justify-content-md-center">
+    <div class="col col-md-6 border-left border-info" >   
 
+<p> Estos ejercicios reducen el estrés y favorecen la relajación. Pueden ser ejercicios basados en respiraciones, basados en conjuntos musculares o de otros tipos.</p>
+</div>
+</div>
 <!-- Botones Estados -->
 <div class="container">
 	<div class="row justify-content-md-center">
 		@foreach ($estados as $estado)
 
-		<div class="col col-md-1">  				
+		<div class="col col-2">  				
 			<!-- Button trigger modal -->
 			<button type="button" class="btn btn-primary" data-bs-toggle="modal"  data-bs-target="#es-{{ $estado->id }}">Ejercicios {{ $estado->nombre }} </button>
 		</div>
@@ -28,7 +33,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-         Estos ejercicios reducen el estrés y favorecen la relajación. Pueden ser ejercicios basados en respiraciones, en conjuntos musculares o de otros tipos.
+        Elije el ejercicio que más te apetzca. Puede repetirlo las veces que necesites
         </div>
 
         <div class="modal-footer justify-content-md-center">
@@ -51,7 +56,7 @@
         <div class="modal-content">
          <div class="modal-header">
           <h5 class="modal-title" id="{{ $ejercicio->id }}"> {{ $ejercicio->nombre }} </h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <button type="button" class="btn-close " data-bs-dismiss="modal" aria-label="Close"></button>
          </div>
 
          <div class="modal-body">
@@ -59,7 +64,7 @@
          </div>
 
          <div class="modal-footer justify-content-md-center">
-          <a class="btn btn-primary" href="#es-{{ $ejercicio->estado_id }}" data-bs-toggle="modal" data-bs-dismiss="modal" role="button">Volver</a>
+          <a class="btn btn-secondary" href="#es-{{ $ejercicio->estado_id }}" data-bs-toggle="modal" data-bs-dismiss="modal" role="button">Volver</a>
 
             <form method="POST" action="{{ route('marcaRealizado') }}">
                @csrf

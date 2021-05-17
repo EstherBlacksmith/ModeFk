@@ -9,6 +9,7 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
+use Redirect;
 
 class RegisterController extends Controller
 {
@@ -30,6 +31,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
+    //Está cambiado a 'inicioSesion'
     protected $redirectTo = RouteServiceProvider::HOME;
 
     /**
@@ -64,13 +66,19 @@ class RegisterController extends Controller
      * @return \App\Models\User
      */
     protected function create(Request $data)
-    {   
+
+    {   $usuario =  User::where('email',$data['email']) -> first();
+
+         if(isset ($usuario->id )){
+            return redirect()->back()->with('error', 'Este email ya está en uso');  
+         }
          User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
          
+        return Redirect::route('inicioSesion')->with('success', $data['name'].', Bienvenido a ModeFk!');   
 
     }
 }

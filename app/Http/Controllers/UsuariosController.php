@@ -22,7 +22,7 @@ class UsuariosController extends Controller
 	    ],
    		[
 	        'email.required' => 'El email es necesario',	    
-  	        'password.required' => 'La contraseña es necesaria',	
+  	      'password.required' => 'La contraseña es necesaria',	
     	]);
 
     	//Autentifiación

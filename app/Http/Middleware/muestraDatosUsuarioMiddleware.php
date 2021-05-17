@@ -6,6 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Creativeorange\Gravatar\Facades\Gravatar;
 
 class muestraDatosUsuarioMiddleware
 {
@@ -19,19 +20,18 @@ class muestraDatosUsuarioMiddleware
     public function handle(Request $request, Closure $next)
     { 
         $response = $next($request);
-        
-               
+
        if (Auth::check()){
             $user = Auth()->user();
             
             if($user->id == null){
-                echo "Inicia sesión";
+                //echo "Inicia sesión";
             }
             else{
-                echo "Hola ".$user->name;
+                return $response;
             }
         }else{
-            echo "Inicia sesión";
+         //   echo "Inicia sesión";
         }
 
 

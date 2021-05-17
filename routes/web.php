@@ -5,6 +5,9 @@ use App\Http\Controllers\EstadosController;
 use App\Http\Controllers\EjerciciosCOntroller;
 use App\Http\Controllers\UsuariosController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\GravatarController;
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -40,7 +43,9 @@ Route::get('registroUsuario', function () {
 
 Route::post('registroUsuario',[RegisterController::class,'create'])-> name('registroUsuario');
 
+Route::get('gravatar', [GravatarController::class,'gravatar']);
 
+//Controlamos qué rutas están accesible de pendiendo de los roles y si se está loggeado
 Route::group(['middleware' => 'admin'], function () {
 
     Route::get('ejerciciosQuitar/{id}',[EjerciciosCOntroller::class,'ejerciciosQuitar'])->name('ejerciciosQuitar');
@@ -58,6 +63,7 @@ Route::group(['middleware' => 'admin'], function () {
 
     Route::post('ejerciciosEdicionStore',[EjerciciosCOntroller::class,'ejerciciosEdicionStore'])->name('ejerciciosEdicionStore');
 
+    Route::post('eliminarEjercicios}',[EjerciciosCOntroller::class,'eliminarEjercicios'])->name('eliminarEjercicios');
 
     Route::get('estadosEdicion',[EstadosController::class,'estadosEdicion'])->name('estadosEdicion');
 

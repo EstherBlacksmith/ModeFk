@@ -79,7 +79,6 @@ class EstadosController extends Controller
 
         $estados = Estado::all(); 
         return view('estados.estadosEdicion',compact('estados'));
-    	//return Redirect::back();
 
     }
 

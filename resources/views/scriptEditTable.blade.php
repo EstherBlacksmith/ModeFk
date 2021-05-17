@@ -35,7 +35,7 @@ function getCellValue(element, id, tipo) {
       hideIdentifier: true,
       columns: {
         identifier: [0, 'id'],
-        editable: [[2, 'nombre'], [3, 'descripcion']]
+        editable: [[1, 'nombre'], [2, 'descripcion']]
       }
   });
 
