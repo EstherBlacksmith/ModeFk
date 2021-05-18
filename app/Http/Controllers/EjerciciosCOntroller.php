@@ -258,7 +258,7 @@ class EjerciciosCOntroller extends Controller
         //creamos el registro en la tabla que relaciona los estados con sus ejercicios
         $this->crearRelacionEstadosEjercicios($request->id_estado,$ejercicio->id);       
 
-        return Redirect::back();
+        return Redirect::back()->withInput();
 
     }
 

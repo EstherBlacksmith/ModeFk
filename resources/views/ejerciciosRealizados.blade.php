@@ -9,9 +9,9 @@
   		<ul class="list-group" >
 
   			@foreach ($ejerciciosRealizados as $ejercicioHecho)				  
-  				<li class="list-group-item align-items-center verde" >
-      			<h3 style="font-weight: bold; ">{{ $ejercicioHecho->nombre }}</h3>
-            Realizado un total de <span class="badge badge-info verdeClaro"> {{ $ejercicioHecho->total }} </span>  veces        
+  				<li class="list-group-item align-items-center">
+      			<h3 style="font-weight: bold; color:DarkOrange;  ">{{ $ejercicioHecho->nombre }}</h3>
+            Realizado un total de <span class="badge" style="background-color: CadetBlue !important;"> {{ $ejercicioHecho->total }} </span>  veces        
     		 
             @foreach($ejercicioEstados as $ejerEstado)
               @if($ejerEstado = $ejercicioHecho->ejercicio_id)

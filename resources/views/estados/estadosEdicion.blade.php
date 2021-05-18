@@ -68,8 +68,9 @@
         </table>
     
         <div class="card mar">
+             <div class="card-header text-white" style="background-color: CadetBlue !important;">Añadir Estado</div>
           <div class="card-body">
-            <h5 class="card-title">Añadir Estado</h5>
+        
             <h6 class="card-subtitle mb-2 text-muted">Crea un nuevo estado de ánimo</h6>
             <form method="post" action=" {{ route('estadoCrearStore')}} ">
               @csrf
@@ -79,7 +80,7 @@
               <div class="form-group">
                 <textarea class="form-control" name="descripcionEstado" id="descripcionEstado"  placeholder="Descripción del estado" rows="3"></textarea>
               </div>
-                <button class="btn btn-light" type="submit">Crear</button>
+                <button class="btn text-white" type="submit" style="background-color: DarkOrange;">Crear</button>
 
             </form>
            

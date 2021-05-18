@@ -4,7 +4,7 @@
 
  <div class="row justify-content-center">
 
-    <div class="col col-md-2 border border-info" >   
+    <div class="col col-md-2 text-white rounded-2"  style="background-color: CadetBlue;">   
       <form id="form">
         <label for="contactoEmergencia">Mándale un mensaje a una persona de confianza para que te ayude</label>
         <select name="contactoEmergencia" class="form-control form-select form-control-md" id="contactoEmergencia" onChange="myFunction()">
@@ -17,7 +17,7 @@
        
           <br>
         <div class="flex items-center justify-between">
-          <button id="submit"    type="submit" class="btn btn-primary">
+          <button id="submit"    type="submit" class="btn text-white" style="background-color: DarkOrange;">
           <i class="fab fa-whatsapp"></i> Enviar WhatsApp
         </button>
       </div>

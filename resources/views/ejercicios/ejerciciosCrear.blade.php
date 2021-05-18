@@ -65,11 +65,11 @@
               @csrf
               <div class="form-group">
 
-                <input class="form-control" type="text" name="nombreEjercicio" id="nombreEjercicio" placeholder="Nombre del ejercicio">
+                <input class="form-control" type="text" name="nombreEjercicio" id="nombreEjercicio" placeholder="Nombre del ejercicio" value="{{ old($ejercicio['nombre'])}}">
               </div>
-              <div class="form-group">
-                <textarea class="form-control" name="descripcionEjercicio" id="descripcionEjercicio"  placeholder="Descripción del ejercicio" rows="3"></textarea>
-                <input type="hidden" name="id_estado" id="id_estado" value="{{ $estado->id}}">
+              <div class="form-group">         
+                <textarea class="form-control" name="descripcionEjercicio" id="descripcionEjercicio"  placeholder="Descripción del ejercicio" rows="3" value="{{old($ejercicio['descripcion'])}}"></textarea>
+                <input type="hidden" name="id_estado" id="id_estado" value="{{$estado->id}}">
               </div>
               <button class="btn btn-primary" type="submit">Crear</button>
 

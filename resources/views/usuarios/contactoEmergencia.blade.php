@@ -25,7 +25,7 @@
           <input type="hidden" name="contacto_id" id="contacto_id" value="{{$contactos->id}}">
 
         <td> <button class="btn " type="submit">
-          <i class="fas fa-trash-alt" style=" color: Tomato;font-size: 2em;"></i></button>
+          <i class="fas fa-trash-alt" style=" color: Tomato;font-size: 1em;"></i></button>
         </td>
       </form>
 
@@ -35,7 +35,7 @@
 
 </table>
             <div class="card">
-                <div class="card-header">Datos de tu nuevo contacto</div>
+                <div class="card-header text-white" style="background-color: CadetBlue !important;">Datos de tu nuevo contacto</div>
 
                 <div class="card-body">
                     <form method="POST" action="{{ route('contactoEmergenciaStore') }}">
@@ -84,7 +84,7 @@
 
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
+                                <button type="submit" class="btn text-white" style="background-color: DarkOrange;  ">
                                     Guardar
                                 </button>
                             </div>

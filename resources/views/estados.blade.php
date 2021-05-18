@@ -4,7 +4,7 @@
 
 @section('contenido1')
  <div class="row justify-content-md-center">
-    <div class="col col-md-6 border-left border-info" >   
+    <div class="col col-md-6 border-left border-dark rounded-2 border-4" >   
 
 <p> Estos ejercicios reducen el estrés y favorecen la relajación. Pueden ser ejercicios basados en respiraciones, basados en conjuntos musculares o de otros tipos.</p>
 </div>
@@ -16,7 +16,7 @@
 
 		<div class="col col-2">  				
 			<!-- Button trigger modal -->
-			<button type="button" class="btn btn-primary" data-bs-toggle="modal"  data-bs-target="#es-{{ $estado->id }}">Ejercicios {{ $estado->nombre }} </button>
+			<button type="button" class="btn text-white" style="background-color: DarkOrange !important;" data-bs-toggle="modal"  data-bs-target="#es-{{ $estado->id }}">Ejercicios {{ $estado->nombre }} </button>
 		</div>
 		@endforeach
 	</div>
@@ -28,18 +28,18 @@
   <div class="modal fade" id="es-{{ $estado->id }}" tabindex="-1" aria-labelledby="{{ $estado->nombre }}" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="{{ $estado->nombre }}">A continuación puedes escojer un ejercicio breve para reducir el nivel de {{ $estado->nombre }}</h5>
+        <div class="modal-header text-white" style="background-color: CadetBlue !important;" >
+          <h5 class="modal-title" id="{{ $estado->nombre }}" >A continuación puedes escojer un ejercicio breve para reducir el nivel de {{ $estado->nombre }}</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-        Elije el ejercicio que más te apetzca. Puede repetirlo las veces que necesites
+        Elije el ejercicio que más te apetezca. Puede repetirlo las veces que necesites
         </div>
 
         <div class="modal-footer justify-content-md-center">
          @foreach($ejerciciosYEstados as $ejercicio)        
          @if($ejercicio->estado_id == $estado->id )	              
-         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ej-{{ $ejercicio->id }}"  data-bs-dismiss="modal">{{$ejercicio->nombre }} </button>
+         <button type="button" class="btn text-white" style="background-color: CadetBlue !important;" data-bs-toggle="modal" data-bs-target="#ej-{{ $ejercicio->id }}"  data-bs-dismiss="modal">{{$ejercicio->nombre }} </button>
          @endif
          @endforeach
         </div>
@@ -54,7 +54,7 @@
     <div class="modal fade" id="ej-{{ $ejercicio->id }}" tabindex="-1" aria-labelledby="{{ $ejercicio->nombre}}" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
-         <div class="modal-header">
+         <div class="modal-header text-white" style="background-color: CadetBlue !important;">
           <h5 class="modal-title" id="{{ $ejercicio->id }}"> {{ $ejercicio->nombre }} </h5>
           <button type="button" class="btn-close " data-bs-dismiss="modal" aria-label="Close"></button>
          </div>
@@ -77,7 +77,7 @@
                    @endif
                  @endif
                @endforeach
-               <button type="submit"  class="btn btn-primary">Marcar como hecho</button> 
+               <button type="submit"  class="btn text-white" style="background-color: DarkOrange;">Marcar como hecho</button> 
             </form>
           </div>
         </div>

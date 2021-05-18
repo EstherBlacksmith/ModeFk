@@ -8,8 +8,8 @@
 <div class="container">
   <div class="row">
     <div class="col">
-            <table class="table table-striped " id="edicionEjercicios">
-              <thead>
+            <table class="table table-striped rounded" id="edicionEjercicios">
+              <thead style="background-color: CadetBlue !important;" class="rounded">
                 <tr>
                   <th scope="col"></th>
                   <th scope="col" style="font-weight: bold; ">Nombre</th>

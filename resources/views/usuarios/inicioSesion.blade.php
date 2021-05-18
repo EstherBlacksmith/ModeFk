@@ -3,7 +3,12 @@
 @section('contenido1')
 
 <div class="container">
-	<div class="row justify-content-md-center">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+        <div class="card-header rounded text-white" style="background-color: CadetBlue !important;" >Inicia sesión</div>
+
+        <div class="card-body">
 		<form method="POST" action="{{ route('inicioSesion') }}">
 		@csrf
 		<div class="form-group">
@@ -13,10 +18,10 @@
 		<div class="form-group">
 		    <label for="Password">Password</label>
 		    <input type="password" class="form-control" id="password" name="password" placeholder="Contraseña">
-				<a href="#" class="fas fa-eye" id="eye" onclick="myFunction()"></a>
+				<a href="#" class="fas fa-eye" id="eye"style="color: CadetBlue !important;"  onclick="myFunction()"></a>
 		</div>         
 
-    	<button type="submit" class="btn btn-primary">Enviar</button>
+    	<button type="submit" class="btn text-white"  style="background-color: DarkOrange !important;">Enviar</button>
 		</form>
 
 		@if ($errors->any())
@@ -30,8 +35,8 @@
 		@endif
 
 	</div>
-
-	@if(session()->has('success'))
+	<div class="card-footer">
+			@if(session()->has('success'))
     <div class="alert alert-success">
         {{ session()->get('success') }}
     </div>
@@ -40,6 +45,11 @@
 	<div class="row justify-content-md-center">
 		<p>¿Aún no tienes usuario? Regístrate <a href="{{ route('registroUsuario') }}">aquí</a></p>
 	</div>
+	</div>
+</div>
+</div>
+</div>
+
 
 </div>
 
